@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=
+    
+    , initial-scale=1.0"
+        />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+    <body>
+        <form id="add-to-list">
+            <label for="list-item">What do you want to add to your list?</label>
+            <input type="text" id="list-item" />
+            <button>Add to your list</button>
+        </form>
+
+        <div><ul id="list"></ul></div>
+        <script>
+            let data = {
+                listItems: []
+            };
+
+            let template = function() {
+                if (data.listItems.length < 1) {
+                    return '<p><em> you do not have any list items yet. Try adding one with the form above.</em></p>';
+                }
+
+                return (
+                    '<ul>' +
+                    data.listItems
+                        .map(function(item) {
+                            return '<li>' + item + '</li>';
+                        })
+                        .join('') +
+                    '</ul>'
+                );
+            };
+
+            let render = function() {
+                let list = document.querySelector('#list');
+
+                if (!list) return;
+
+                list.innerHTML = template();
+            };
+
+            document.addEventListener(
+                'submit',
+                function(e) {
+                    if (!e.target.matches('#add-to-list')) return;
+
+                    e.preventDefault();
+
+                    let item = document.querySelector('#list-item');
+                    data.listItems.push(item.value);
+
+                    render();
+
+                    item.value = '';
+                    item.focus();
+                },
+                false
+            );
+        </script>
+    </body>
+</html>
