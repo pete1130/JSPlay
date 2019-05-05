@@ -24,6 +24,12 @@
                 listItems: []
             };
 
+            let sanitizeHTML = function(str) {
+                let temp = document.createElement('div');
+
+                temp.textContent = str;
+                return temp.innerHTML;
+            };
             let template = function() {
                 if (data.listItems.length < 1) {
                     return '<p><em> you do not have any list items yet. Try adding one with the form above.</em></p>';
@@ -33,7 +39,7 @@
                     '<ul>' +
                     data.listItems
                         .map(function(item) {
-                            return '<li>' + item + '</li>';
+                            return '<li>' + sanitizeHTML(item) + '</li>';
                         })
                         .join('') +
                     '</ul>'
