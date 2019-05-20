@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Project Template</title>
+        <title>Project Complete</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <!-- Styles -->
@@ -56,9 +56,7 @@
         <figure
             class="lazy-load"
             data-caption="A lifeguard station on a deserted beach"
-            data-image="img/beach.jpg"
-            data-height="800"
-            data-width="1200"
+            data-image="beach.jpg"
         ></figure>
 
         <p>
@@ -81,9 +79,7 @@
         <figure
             class="lazy-load"
             data-caption="A dog on the beach"
-            data-image="img/sea-dog.jpg"
-            data-height="800"
-            data-width="1200"
+            data-image="sea-dog.jpg"
         ></figure>
 
         <p>
@@ -104,12 +100,7 @@
             barque port smartly Chain Shot deadlights Jack Ketch.
         </p>
 
-        <figure
-            class="lazy-load"
-            data-image="img/crab.jpg"
-            data-height="800"
-            data-width="1200"
-        ></figure>
+        <figure class="lazy-load" data-image="crab.jpg"></figure>
 
         <p>
             Flogging heave down sloop me squiffy barkadeer loot chantey. Ye
@@ -132,9 +123,7 @@
         <figure
             class="lazy-load"
             data-caption="Two sets of two blue doors with anchors painted on them"
-            data-image="img/doors.jpg"
-            data-height="800"
-            data-width="1200"
+            data-image="doors.jpg"
         ></figure>
 
         <p>
@@ -157,9 +146,7 @@
         <figure
             class="lazy-load"
             data-caption="A whale breaching"
-            data-image="img/whale.jpg"
-            data-height="800"
-            data-width="1200"
+            data-image="whale.jpg"
         ></figure>
 
         <p>
@@ -180,12 +167,7 @@
             barque port smartly Chain Shot deadlights Jack Ketch.
         </p>
 
-        <figure
-            class="lazy-load"
-            data-image="img/canoe.jpg"
-            data-height="800"
-            data-width="1200"
-        ></figure>
+        <figure class="lazy-load" data-image="canoe.jpg"></figure>
 
         <p>
             Flogging heave down sloop me squiffy barkadeer loot chantey. Ye
@@ -205,12 +187,7 @@
             quarterdeck prow lugger spanker fluke broadside reef.
         </p>
 
-        <figure
-            class="lazy-load"
-            data-image="img/sail.jpg"
-            data-height="800"
-            data-width="1200"
-        ></figure>
+        <figure class="lazy-load" data-image="sail.jpg"></figure>
 
         <p>
             Hempen halter me gangplank snow smartly boom fire ship aft. Rope's
@@ -232,9 +209,7 @@
         <figure
             class="lazy-load"
             data-caption="A lighthouse against the night sky"
-            data-image="img/lighthouse.jpg"
-            data-height="800"
-            data-width="1200"
+            data-image="lighthouse.jpg"
         ></figure>
 
         <p>
@@ -258,9 +233,7 @@
         <figure
             class="lazy-load"
             data-caption="An awesome jellyfish"
-            data-image="img/jellyfish.jpg"
-            data-height="800"
-            data-width="1200"
+            data-image="jellyfish.jpg"
         ></figure>
 
         <p>
@@ -273,7 +246,53 @@
 
         <!-- Scripts -->
         <script>
-            // Code goes here...
+            // Get our lazy load images
+            var images = document.querySelectorAll('.lazy-load');
+            // Determine if an element is in the viewport
+            var isInViewport = function(elem) {
+                var distance = elem.getBoundingClientRect();
+                return (
+                    distance.top >= 0 &&
+                    distance.left >= 0 &&
+                    distance.bottom <=
+                        (window.innerHeight ||
+                            document.documentElement.clientHeight) &&
+                    distance.right <=
+                        (window.innerWidth ||
+                            document.documentElement.clientWidth)
+                );
+            };
+            // Load our images
+            var loadImages = function() {
+                // Loop through each lazy load image
+                for (var i = 0; i < images.length; i++) {
+                    // Check if the image is in the viewport
+                    if (isInViewport(images[i])) {
+                        // Make sure the image has a data-image attribute and hasn't already been loaded
+                        if (!images[i].hasAttribute('data-image')) continue;
+                        // Load the image
+                        images[i].innerHTML =
+                            '<img src="' +
+                            images[i].getAttribute('data-image') +
+                            '">';
+                        // Add a caption if one exists
+                        if (images[i].hasAttribute('data-caption')) {
+                            var img = images[i].querySelector('img');
+                            var caption = document.createElement('caption');
+                            caption.innerHTML = images[i].getAttribute(
+                                'data-caption'
+                            );
+                            images[i].insertBefore(caption, img.nextSibling);
+                        }
+                        // Remove the [data-image] attribute from the placeholder
+                        images[i].removeAttribute('data-image');
+                    }
+                }
+            };
+            // Listen for scroll events
+            window.addEventListener('scroll', loadImages, false);
+            // Load images on page load
+            loadImages();
         </script>
     </body>
 </html>
