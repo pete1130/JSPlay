@@ -5,7 +5,6 @@
         <title>Project Template</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <!-- Styles -->
         <style type="text/css">
             body {
                 max-width: 40em;
@@ -49,9 +48,27 @@
             </div>
         </form>
 
-        <!-- Scripts -->
         <script>
-            // Code goes here...
+            //get the form data
+            let inputs = document.querySelectorAll('input, textarea');
+
+            //loop through each input and load data from localStorage
+            for (let i = 0; i < inputs.length; i++) {
+                let saved = localStorage.getItem(
+                    'formAutosaveData_' + inputs[i].id
+                );
+                if (!saved) continue;
+
+                //if there's saved data, load it into the form
+                inputs[i].value = saved;
+            }
+            document.addEventListener('input', e =>
+                //save field value to local storage.
+                localStorage.setItem(
+                    'formAutosaveData_' + e.target.id,
+                    e.target.value
+                )
+            );
         </script>
     </body>
 </html>
