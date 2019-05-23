@@ -49,9 +49,45 @@
             </div>
         </form>
 
-        <!-- Scripts -->
         <script>
-            // Code goes here...
+            //getting ALL the inputs
+            let inputs = document.querySelectorAll('input, textarea');
+
+            //get the saved form data
+            let savedLS = localStorage.getItem('saveFormData');
+
+            if (savedLS) {
+                //convert back to object
+                savedLS = JSON.parse(savedLS);
+                for (let i = 0; i < inputs.length; i++) {
+                    //check for the saved key in LS
+                    let valueFromLS = savedLS[inputs[i].id];
+
+                    //setting the input values as the values
+                    inputs[i].value = valueFromLS;
+                }
+            }
+
+            // Saved the input value to localStorage when it changes
+            document.addEventListener('input', e => {
+                // Get current data from localStorage
+                let saveAsObjectViaJSON = localStorage.getItem('saveFormData');
+
+                // If there's existing data, convert to an object
+                // Otherwise, create a new one
+                saveAsObjectViaJSON = saveAsObjectViaJSON
+                    ? JSON.parse(saveAsObjectViaJSON)
+                    : {};
+
+                // Push field value to saved data object
+                saveAsObjectViaJSON[e.target.id] = e.target.value;
+
+                // Save data back down to localStorage
+                localStorage.setItem(
+                    'saveFormData',
+                    JSON.stringify(saveAsObjectViaJSON)
+                );
+            });
         </script>
     </body>
 </html>
