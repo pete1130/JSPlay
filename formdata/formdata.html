@@ -55,7 +55,7 @@
             //loop through each input and load data from localStorage
             for (let i = 0; i < inputs.length; i++) {
                 let saved = localStorage.getItem(
-                    'formAutosaveData_' + inputs[i].id
+                    'formSaveData_' + inputs[i].id
                 );
                 if (!saved) continue;
 
@@ -65,7 +65,7 @@
             document.addEventListener('input', e =>
                 //save field value to local storage.
                 localStorage.setItem(
-                    'formAutosaveData_' + e.target.id,
+                    'formSaveData_' + e.target.id,
                     e.target.value
                 )
             );
