@@ -6,9 +6,9 @@ body {
 }
 
 .accordion-content {
-    display: none;
+    display: block;
 }
 
 .accordion-content.active {
-    display: block;
+    display: none;
 }

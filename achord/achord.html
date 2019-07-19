@@ -82,7 +82,7 @@
             document.addEventListener('click', function(e) {
                 if (!e.target.classList.contains('accordion-toggle')) return;
 
-                console.log(e.target);
+                console.log(e.target.hash);
                 let content = document.querySelector(e.target.hash);
                 if (!content) return;
 
