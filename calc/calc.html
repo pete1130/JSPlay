@@ -35,7 +35,7 @@
         <form id="tip-calculator">
             <div class="row">
                 <label for="amount">Bill Amount</label>
-                <input type="text" name="amount" id="hungry" />
+                <input type="text" name="amount" id="amount" />
             </div>
 
             <div class="row">
@@ -84,11 +84,11 @@
                     event.preventDefault();
                     // Don't run if there are no numbers for any of the fields
                     if (
-                        hungry.value.length < 1 ||
+                        amount.value.length < 1 ||
                         tip.value.length < 1 ||
                         people.value.length < 1
                     )
-                        console.log('test');
+                        return;
                     // Calculate how much each person owes
                     calculateTip();
                 },
