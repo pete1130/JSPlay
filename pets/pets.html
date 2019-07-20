@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
-        <title>Project Complete</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width", initial-scale=1.0"
+        />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Pets</title>
 
         <style type="text/css">
             body {
@@ -12,56 +14,51 @@
                 max-width: 40em;
                 width: 88%;
             }
+
             h2 {
                 margin-top: 2em;
             }
+
             img {
-                height: auto;
-                max-width: 100%;
+                height: 100%;
+                max-width: auto;
             }
         </style>
     </head>
-
     <body>
         <h1>Adoptable Dogs</h1>
 
         <div id="dogs">Fetching our adoptable dogs...</div>
 
         <script>
-            var apiData = [
+            let apiData = [
                 {
                     name: 'Rufus',
-                    breeds: ['Lab', 'German Shepard', 'Border Collie'],
+                    breeds: ['English Lab', 'German Shepard', 'Border Collie'],
                     age: 'Adult',
-                    size: 'M',
-                    gender: 'M',
+                    size: 'Medium',
+                    gender: 'Male',
                     details: 'No Cats, No Dogs',
-                    photo: 'rufus.jpg',
-                    description:
-                        '      Hail-shot bounty barque  chase guns. Brigantine gibbet haul wind line.  Barque chandler lookout clap of thunder. Transom hogshead trysail league.  '
+                    photo: 'rufus.jpg'
                 },
                 {
-                    name: 'Kylie Jane',
+                    name: 'kylie jane',
                     breeds: ['Shih Tzu'],
-                    age: 'Baby',
-                    size: 'S',
-                    gender: 'F',
+                    age: 'Puppy',
+                    size: 'Small',
+                    gender: 'Female',
                     details: 'Neutered',
-                    photo: 'kylie.jpg',
-                    description:
-                        '   Hands loaded to the gunwalls topgallant long clothes. Crack Jennys tea cup topsail flogging handsomely. Bounty blow the man down nipper pillage. Chantey landlubber or just lubber red ensign warp.'
+                    photo: 'kylie.jpg'
                 },
                 {
-                    name: 'Jacque ',
+                    name: 'jacque ',
                     breeds: ['Chihuahua', 'Rat Terrier'],
                     age: 'Senior',
-                    size: 'S',
-                    gender: 'M',
+                    size: 'Small',
+                    gender: 'Male',
                     details:
                         'No Cats, No Dogs, Neutered, Special Medical Needs',
-                    photo: 'jacque.jpg',
-                    description:
-                        'Interloper tackle   yo-ho-ho yard. Gangway keelhaul no prey, no pay sheet. Hang the jib snow careen transom. Broadside gabion bilged on her anchor sloop.'
+                    photo: 'jacque.jpg'
                 },
                 {
                     name: 'Elsa',
@@ -71,80 +68,99 @@
                         'Staffordshire Terrier'
                     ],
                     age: 'Adult',
-                    size: 'XL',
-                    gender: 'F',
+                    size: 'Extra Large',
+                    gender: 'Female',
                     details: 'Neutered',
-                    photo: 'elsa.jpg',
-                    description:
-                        'Take a caulk league pink main sheet. Letter of Marque avast coxswain fire in the hole. Yardarm schooner piracy Jack Tar. Yardarm hardtack rutters poop deck.'
+                    photo: 'elsa.jpg'
                 },
                 {
                     name: 'Colt',
-                    breeds: ['Staffordshire Terrier', 'Dalmation'],
-                    age: 'Baby',
-                    size: 'L',
-                    gender: 'M',
+                    breeds: [
+                        'Staffordshire Terrier',
+                        'Dalmation',
+                        'English Lab'
+                    ],
+                    age: 'Puppy',
+                    size: 'Large',
+                    gender: 'Male',
                     details: '',
-                    photo: 'colt.jpg',
-                    description:
-                        '     Come about Nelsons folly  black jack measured fer yer chains.  Hail-shot tack sloop grapple.  Boom sheet spirits man-of-war.  Scuttle bounty hulk sloop.'
+                    photo: 'colt.jpg'
                 }
             ];
 
-            var getOtherDetails = function(dogDetailss) {
-                if (dogDetailss === '') {
-                    return ' No additional details.';
+            // Create a list of available breeds, and how many of each breed there are
+            let getBreeds = function() {
+                // Get breeds
+                let breeds = apiData.reduce((totalBreeds, dogs) => {
+                    // Loop through each breed
+                    dogs.breeds.forEach(breed => {
+                        // If breed already exists, increase count
+                        // Otherwise, create it
+                        if (totalBreeds[breed]) {
+                            totalBreeds[breed]++;
+                        } else {
+                            totalBreeds[breed] = 1;
+                        }
+                    });
+
+                    return totalBreeds;
+                }, {});
+
+                // if there are no breeds, return an empty string
+                if (Object.keys(breeds).length < 1) {
+                    return '';
                 }
 
-                var details = dogDetailss.split(', ').map(function(detail) {
-                    return '<li>' + detail + '</li>';
-                });
+                let rankCounts = function() {
+                    let sortedValues = Object.values(breeds);
+                    return sortedValues.sort((a, b) => {
+                        return a + b;
+                    });
+                };
 
-                return '<ul>' + details.join('') + '</ul>';
+                // Create summary markup
+                let summary = '';
+                for (let breed in breeds) {
+                    if (breeds.hasOwnProperty(breed)) {
+                        summary += `<li>${breed}(${breeds[breed]})</li>`;
+                    }
+                }
+
+                // Otherwise, return markup
+                return `<h2>Available Breeds</h2><ul>${summary}</ul>`;
             };
 
-            var getDogs = function() {
+            let getDogs = function() {
                 return apiData
-                    .map(function(dog) {
-                        var html =
-                            '<h2>' +
-                            dog.name +
-                            '</h2>' +
-                            '<p><img alt="A photo of ' +
-                            dog.name +
-                            '" src="' +
-                            dog.photo +
-                            '"></p>' +
-                            '<p>' +
-                            'Age: ' +
-                            dog.age.replace('Baby', 'Puppy') +
-                            '<br>' +
-                            'Size: ' +
-                            dog.size
-                                .replace('S', 'Small')
-                                .replace('M', 'Medium')
-                                .replace('L', 'Large')
-                                .replace('XL', 'Very Large') +
-                            '<br>' +
-                            'Gender: ' +
-                            dog.gender
-                                .replace('M', 'Male')
-                                .replace('F', 'Female') +
-                            '<br>' +
-                            'Breeds: ' +
-                            dog.breeds.join(', ') +
-                            '</p>' +
-                            '<strong>Other Details:</strong>' +
-                            getOtherDetails(dog.details) +
-                            '<p>' +
-                            dog.description.replace('  ', ' ') +
-                            '</p>';
-                        return html;
+                    .map(dog => {
+                        return `<h2>${dog.name}</h2>
+                            <p><img width="300" alt="A photo of ${
+                                dog.name
+                            }" src="${dog.photo}"></p>
+                            <p>
+                                Age: ${dog.age}<br>
+                                Size: ${dog.size}<br>
+                                Gender: ${dog.gender}<br>
+                                Breeds: ${dog.breeds.join(', ')}<br>
+                            </p>
+                            <h4>Dog Details</h4>
+                            <ul>
+                                ${dog.details
+                                    .split(',')
+                                    .map(detail => {
+                                        return detail.length < 1
+                                            ? `<li>No additional details...</li>`
+                                            : `<li>${detail}</li>`;
+                                    })
+                                    .join('')}
+                            </ul>`;
                     })
                     .join('');
             };
-            var app = document.querySelector('#dogs');
-            app.innerHTML = getDogs();
+
+            // Load list of adoptable dogs into the DOM
+            let dogBreeds = document.querySelector('#dogs');
+            dogBreeds.innerHTML = getBreeds() + getDogs();
         </script>
     </body>
 </html>
