@@ -246,11 +246,13 @@
 
         <!-- Scripts -->
         <script>
-            // Get our lazy load images
-            var images = document.querySelectorAll('.lazy-load');
-            // Determine if an element is in the viewport
-            var isInViewport = function(elem) {
-                var distance = elem.getBoundingClientRect();
+            //getting the lazy-load images from the figure node
+            let images = document.querySelectorAll('.lazy-load');
+
+            //determine if element is in viewport
+            let isInViewport = function(element) {
+                let distance = element.getBoundingClientRect();
+
                 return (
                     distance.top >= 0 &&
                     distance.left >= 0 &&
@@ -262,36 +264,42 @@
                             document.documentElement.clientWidth)
                 );
             };
-            // Load our images
-            var loadImages = function() {
-                // Loop through each lazy load image
-                for (var i = 0; i < images.length; i++) {
-                    // Check if the image is in the viewport
+
+            //loading images
+            let loadImages = function() {
+                //looping through each lazy load image
+                for (let i = 0; i < images.length; i++) {
+                    //check if images is in viewport
                     if (isInViewport(images[i])) {
-                        // Make sure the image has a data-image attribute and hasn't already been loaded
+                        //check if images has data-image attribute and hasn't already been loaded
                         if (!images[i].hasAttribute('data-image')) continue;
-                        // Load the image
-                        images[i].innerHTML =
-                            '<img src="' +
-                            images[i].getAttribute('data-image') +
-                            '">';
-                        // Add a caption if one exists
+
+                        //load the image
+                        images[i].innerHTML = `<img src="${images[
+                            i
+                        ].getAttribute('data-image')}"/>`;
+
+                        //Add the caption if it exists
                         if (images[i].hasAttribute('data-caption')) {
-                            var img = images[i].querySelector('img');
-                            var caption = document.createElement('caption');
+                            let img = images[i].querySelector('img');
+                            let caption = document.createElement('caption');
                             caption.innerHTML = images[i].getAttribute(
                                 'data-caption'
                             );
+
+                            //inserting the caption in the respective figure's DOM node images[i] before the caption of each child.
                             images[i].insertBefore(caption, img.nextSibling);
                         }
-                        // Remove the [data-image] attribute from the placeholder
+
                         images[i].removeAttribute('data-image');
                     }
                 }
             };
-            // Listen for scroll events
+
+            //Listen for scroll events
             window.addEventListener('scroll', loadImages, false);
-            // Load images on page load
+
+            //Load images on page load
             loadImages();
         </script>
     </body>

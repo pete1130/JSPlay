@@ -111,13 +111,6 @@
                     return '';
                 }
 
-                let rankCounts = function() {
-                    let sortedValues = Object.values(breeds);
-                    return sortedValues.sort((a, b) => {
-                        return a + b;
-                    });
-                };
-
                 // Create summary markup
                 let summary = '';
                 for (let breed in breeds) {
