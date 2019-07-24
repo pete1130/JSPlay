@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Twitter For Pirates</title>
+
+        <style>
+            body {
+                max-width: 40em;
+                width: 88%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            *,
+            *:before,
+            *:after {
+                box-sizing: border-box;
+            }
+            .skwak {
+                border-top: 1px solid #e5e5e5;
+                padding: 1.5em 0;
+            }
+            .skwak:first-child {
+                border-top: 0;
+            }
+            .skwak-content {
+                font-size: 1.1875em;
+                margin-top: 0.5em;
+            }
+            .skwak-date {
+                color: #808080;
+                text-decoration: none;
+            }
+            .skwak-date:active,
+            .skwak-date:hover {
+                color: #0088cc;
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">Currently loading...</div>
+        <script>
+            let app = document.querySelector('#app');
+
+            //used to sanitize data from API
+            let sanitizeHTML = function(str) {
+                let temp = document.createElement('div');
+                temp.textContent = str;
+                return temp.innerHTML;
+            };
+
+            let renderNoSkwaks = function() {
+                return (app.innerHTML = `<p>Currently nothing to return</p>`);
+            };
+
+            let renderSkwaks = function(data) {
+                if (data.skwaks.length < 1) {
+                    renderNoSkwaks();
+                    return;
+                }
+
+                return (app.innerHTML = `
+					<h1>${sanitizeHTML(data.username)}'s skwaks</h1> 
+					<div class="skwaks">
+						${data.skwaks
+                            .map(function(skwak) {
+                                return `<article class="skwak">
+									<a class="skwak-date" href="${sanitizeHTML(
+                                        skwak.url
+                                    )}">${sanitizeHTML(skwak.date)}</a>
+									<div class="skwak-content">${sanitizeHTML(skwak.content)}</div>
+								</article>`;
+                            })
+                            .join('')}
+					</div>
+					<p><em>Powered by ${sanitizeHTML(data.service)}</em></p>`);
+            };
+
+            let getSkwaks = function() {
+                let xhr = new XMLHttpRequest();
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState !== 4) return;
+
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        renderSkwaks(JSON.parse(xhr.responseText));
+                    } else {
+                        renderNoSkwaks();
+                    }
+                };
+
+                xhr.open('GET', 'https://vanillajsguides.com/api/skwak.json');
+                xhr.send();
+            };
+
+            getSkwaks();
+        </script>
+    </body>
+</html>
